@@ -45,4 +45,33 @@ function doIt() {
     })
 }
 
-doIt();
+// doIt();
+
+const setDelay = (millisecond) => {
+  return new Promise((resolve, reject)=>{
+      if (typeof millisecond != 'number') reject(new Error('参数必须是number类型'));
+      setTimeout(()=> {
+        resolve(`我延迟了${millisecond}毫秒后输出的`)
+      }, millisecond)
+  })
+}
+
+function timeout(millisecond) {
+  return ()=> {
+    return setDelay(millisecond);
+  }
+}
+
+var arr = [timeout(2000), timeout(1000), timeout(1000)]
+
+const p = arr.reduce((total, current) => {
+  return total.then((result) => {
+      console.log(result);
+      console.log(total);
+      return current()
+  })
+}, Promise.resolve('程序开始'))
+
+p.then((result) => {
+  console.log('finish', result);
+})
