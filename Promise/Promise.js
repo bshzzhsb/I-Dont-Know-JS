@@ -149,23 +149,25 @@ Promise.reject = function(val) {
 }
 
 Promise.all = function(promises) {
-  let arr = []
-  let i = 0
-  function processData(index, data) {
-    arr[index] = data;
-    i++;
-    if(i == promises.length) {
-      resolve(arr);
-    }
-  }
-  return new Promise((resolve, reject) => {
-    for(let i=0; i<promises.length; i++) {
-      promises[i].then(data => {
-        processData(i, data);
-      }, reject)
-    }
+  let num = 0
+  let result = []
+  return new Promise((reslove, reject) => {
+    promises.forEach(promise => {
+      promise.then(val => {
+          if(num >= promises.length){
+              reslove(result)
+          }else{
+              result.push(val)
+              num++
+          }
+      },function(e){
+          reject(e)
+      })
+    })
   })
 }
+
+
 
 Promise.race = function(promises) {
   return new Promise((resolve, reject) => {
