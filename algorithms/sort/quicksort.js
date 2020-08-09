@@ -27,7 +27,7 @@ function quickSort(array, left, right, cmp) {
   return array;
 }
 
-export default quickSort;
+module.export = quickSort
 
 var arr = [3,4,123,654,12,312,67123,126541,31];
 arr = quickSort(arr, 0, arr.length, (el1, el2) => el1 - el2);
