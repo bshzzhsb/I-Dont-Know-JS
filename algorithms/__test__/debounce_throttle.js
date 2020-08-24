@@ -1,8 +1,8 @@
 function debounce(cb) {
-  var tim = null;
+  var timer = null;
   return function() {
-    clearTimeout(tim);
-    tim = setTimeout(() => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
       cb.apply(this, arguments);
     }, 500)
   }
