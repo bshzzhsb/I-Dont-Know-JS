@@ -99,4 +99,26 @@ function promiseChain() {
     });
 }
 
-promiseChain();
+// promiseChain();
+
+function debounce(cb) {
+  var timer = null;
+  return function() {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      cb.apply(this, arguments);
+    }, 1000)
+  }
+}
+
+function throttle(cb) {
+  var flag = true;
+  return function() {
+    if(!flag) return;
+    flag = false;
+    setTimeout(() => {
+      flag = true;
+      cb.apply(this, arguments);
+    }, 1000);
+  }
+}
