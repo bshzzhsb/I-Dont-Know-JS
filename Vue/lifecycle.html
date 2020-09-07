@@ -1,63 +1,83 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-    <div id="app">
-      <p>{{ message }}</p>
-    </div>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script>
-      let vm = new Vue({
-        el: '#app',
-        data: {
-          message: 1,
-        },
-        beforeCreate() {
-          console.log("调用了beforeCreate");
-          console.log(this.message);
-          console.log(this.$el);
-        },
-        created() {
-          console.log("调用了created");
-          console.log(this.message);
-          console.log(this.$el);
-        },
-        beforeMount() {
-          console.log("调用了beforeMount");
-          console.log(this.message);
-          console.log(this.$el);
-        },
-        mounted() {
-          console.log("调用了mounted");
-          console.log(this.message);
-          console.log(this.$el);
-        },
-        beforeUpdate() {
-          console.log("调用了beforeUpdate");
-          console.log(this.message);
-          console.log(this.$el);
-        },
-        updated() {
-          console.log("调用了updated");
-          console.log(this.message);
-          console.log(this.$el);
-        },
-        beforeDestory() {
-          console.log("调用了beforeDestory");
-          console.log(this.message);
-          console.log(this.$el);
-        },
-        destoryed() {
-          console.log("调用了Destoryed");
-          console.log(this.message);
-          console.log(this.$el);
-        },
-      });
-
-      vm.message = 2;
-    </script>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue生命周期学习</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.1/vue.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <h1>{{message}}</h1>
+  </div>
+</body>
+<script>
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      message: 'Vue的生命周期'
+    },
+    beforeCreate: function() {
+      console.group('------beforeCreate创建前状态------');
+      console.log("%c%s", "color:red" , "el     : " + this.$el); //undefined
+      console.log("%c%s", "color:red","data   : " + this.$data); //undefined 
+      console.log("%c%s", "color:red","message: " + this.message) 
+    },
+    created: function() {
+      console.group('------created创建完毕状态------');
+      console.log("%c%s", "color:red","el     : " + this.$el); //undefined
+      console.log("%c%s", "color:red","data   : " + this.$data); //已被初始化 
+      console.log("%c%s", "color:red","message: " + this.message); //已被初始化
+    },
+    beforeMount: function() {
+      console.group('------beforeMount挂载前状态------');
+      console.log("%c%s", "color:red","el     : " + this.$el.innerHTML); //已被初始化
+      console.log(this.$el.innerHTML);
+      console.log("%c%s", "color:red","data   : " + this.$data); //已被初始化  
+      console.log("%c%s", "color:red","message: " + this.message); //已被初始化  
+    },
+    mounted: function() {
+      console.group('------mounted 挂载结束状态------');
+      console.log("%c%s", "color:red","el     : " + this.$el.innerHTML); //已被初始化
+      console.log(this.$el.innerHTML);    
+      console.log("%c%s", "color:red","data   : " + this.$data); //已被初始化
+      console.log("%c%s", "color:red","message: " + this.message); //已被初始化
+      setTimeout(() => {
+        this.$data.message = "update"
+      }, 1000)
+    },
+    beforeUpdate: function () {
+      console.group('beforeUpdate 更新前状态===============》');
+      console.log("%c%s", "color:red","el     : " + this.$el.innerHTML);
+      console.log(this.$el.innerHTML);   
+      console.log("%c%s", "color:red","data   : " + this.$data); 
+      console.log("%c%s", "color:red","message: " + this.message); 
+    },
+    updated: function () {
+      console.group('updated 更新完成状态===============》');
+      console.log("%c%s", "color:red","el     : " + this.$el.innerHTML);
+      console.log(this.$el.innerHTML); 
+      console.log("%c%s", "color:red","data   : " + this.$data); 
+      console.log("%c%s", "color:red","message: " + this.message); 
+    },
+    beforeDestroy: function () {
+      console.group('beforeDestroy 销毁前状态===============》');
+      console.log("%c%s", "color:red","el     : " + this.$el.innerHTML);
+      console.log(this.$el);    
+      console.log("%c%s", "color:red","data   : " + this.$data); 
+      console.log("%c%s", "color:red","message: " + this.message); 
+    },
+    destroyed: function () {
+      console.group('destroyed 销毁完成状态===============》');
+      console.log("%c%s", "color:red","el     : " + this.$el.innerHTML);
+      console.log(this.$el);  
+      console.log("%c%s", "color:red","data   : " + this.$data); 
+      console.log("%c%s", "color:red","message: " + this.message)
+    }
+  })
+  setTimeout(() => {
+    vm.$destroy()
+  }, 2000)
+</script>
 </html>
