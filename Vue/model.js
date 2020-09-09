@@ -15,7 +15,7 @@ function defineReactive(data, key, value) {
         value = newVal;
         dep.notify(); //通知订阅器
       }
-    }
+    },
   });
 }
 
@@ -23,7 +23,7 @@ function observer(data) {
   if (!data || typeof data !== "object") {
     return;
   }
-  Object.keys(data).forEach(key => {
+  Object.keys(data).forEach((key) => {
     defineReactive(data, key, data[key]);
   });
 }
@@ -35,16 +35,17 @@ function Dep() {
 }
 Dep.prototype.addSub = function (sub) {
   // 添加订阅者
-  console.log('添加 sub')
+  console.log("添加 sub");
   this.subs.push(sub);
-}
+  console.log(this.subs)
+};
 Dep.prototype.notify = function () {
   // 通知所有订阅者执行 update 方法
-  console.log('属性变化通知 Watcher 执行更新视图函数');
-  this.subs.forEach(sub => {
+  console.log("属性变化通知 Watcher 执行更新视图函数");
+  this.subs.forEach((sub) => {
     sub.update();
-  })
-}
+  });
+};
 Dep.target = null;
 
 // 订阅者类
@@ -69,26 +70,29 @@ Watcher.prototype = {
     const value = this.vm.$data[this.prop]; // 执行监听器里的get函数，把自己添加为订阅者
     Dep.target = null; // 释放自身
     return value;
-  }
-}
+  },
+};
 
 function Mvue(options, prop) {
-	this.$options = options;
-	this.$data = options.data;
-	this.$prop = prop;
-	this.$el = document.querySelector(options.el);
-	this.init();
+  this.$options = options;
+  this.$data = options.data;
+  this.$prop = prop;
+  this.$el = options.el;
+  this.init();
 }
 Mvue.prototype.init = function () {
-    observer(this.$data);
-    this.$el.textContent = this.$data[this.$prop];
-    new Watcher(this, this.$prop, value => {
-	    this.$el.textContent = value;
-	});
-}
+  observer(this.$data);
+  this.$el.textContent = this.$data[this.$prop];
+  new Watcher(this, this.$prop, (value) => {
+    this.$el.textContent = value;
+  });
+};
 
-var modeng = {
-  age: 18,
-}
-observer(modeng);
-modeng.age = 20;
+const vm = new Mvue({
+  el: {},
+  data: {
+    name: "xiaoming",
+  }
+}, "name")
+
+vm.$data["name"] = "xiaogang"
