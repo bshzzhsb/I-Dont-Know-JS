@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title></title>
+  </head>
+  <body>
+    <input type="text" id="input" />
+    <h3 id="text"></h3>
+    <button id="btn">switch data</button>
+  </body>
+  <script>
+    var inp = document.getElementById("input");
+    var text = document.getElementById("text");
+    var btn = document.getElementById("btn");
+    var data = { value: "" };
+    Object.defineProperty(data, "value", {
+      set: function (value) {
+        inp.value = value;
+        text.innerText = value;
+      },
+    });
+    inp.addEventListener("input", function () {
+      text.innerText = this.value;
+    });
+    btn.onclick = function () {
+      data.value = "I am changed";
+    };
+  </script>
+</html>
